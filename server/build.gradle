@@ -9,6 +9,13 @@ java {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    implementation 'org.projectlombok:lombok'
+    implementation 'org.postgresql:postgresql'
+//    annotationProcessor 'org.projectlombok:lombok'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -27,4 +34,8 @@ bootJar {
 
 bootJar {
     destinationDirectory = file(project(':').projectDir)
+}
+
+bootRun {
+    mainClass = 'edu.laplateforme.messenger.ServerApplication'
 }
