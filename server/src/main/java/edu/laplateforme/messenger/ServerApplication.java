@@ -3,6 +3,7 @@ package edu.laplateforme.messenger;
 import edu.laplateforme.messenger.entity.User;
 import edu.laplateforme.messenger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,12 +15,22 @@ public class ServerApplication implements CommandLineRunner {
     private UserRepository userRepository;
 
     public static void main(String[] args) {
+
+
+        if (args.length > 0) {
+            int port = Integer.parseInt(args[0]);
+            System.setProperty("server.port", String.valueOf(port));
+        }
+
         SpringApplication.run(ServerApplication.class, args);
-        System.out.println("Server available at http://localhost:9092/api/users");
+        System.out.println("Galactic Messenger Server started on port " + System.getProperty("server.port"));
+
+
     }
 
     @Override
     public void run(String... args) throws Exception {
+
 //        userRepository.deleteAll();
 //        userRepository.flush();
 //
