@@ -1,5 +1,6 @@
 package edu.laplateforme.messenger.entity;
 
+import edu.laplateforme.messenger.service.PasswordEncoderService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,4 +23,12 @@ public class User implements Serializable {
 
     @Column(name = "password", length = 255)
     private String password;
+
+    public User() {
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = PasswordEncoderService.hashPassword(password);
+    }
 }

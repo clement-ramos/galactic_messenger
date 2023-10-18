@@ -2,12 +2,10 @@ package edu.laplateforme.messenger.controller;
 
 import edu.laplateforme.messenger.entity.User;
 import edu.laplateforme.messenger.repository.UserRepository;
+import edu.laplateforme.messenger.service.PasswordEncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,11 +13,37 @@ import java.util.List;
 @RequestMapping("/api/users")
 @RestController
 public class UserController {
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<User> getAllUsers() {
         return userRepository.findAll();
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@RequestParam String username, @RequestParam String password) {
+        if (userRepository.existsByUsername(username)) {
+            return "User with this username already exists.\n";
+        }
+        User user = new User(username, password);
+        userRepository.save(user);
+        return "User registered successfully.\n";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username, @RequestParam String password) {
+        if (!userRepository.existsByUsername(username)) {
+            return "User not found.\n";
+        }
+        User user = userRepository.findByUsername(username);
+        if (!user.getPassword().equals(PasswordEncoderService.hashPassword(password))) {
+            return "Incorrect password.\n";
+        }
+        return "User logged in successfully.\n";
     }
 }
