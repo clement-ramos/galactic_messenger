@@ -1,56 +1,27 @@
 package edu.laplateforme.messenger;
 
-
 import edu.laplateforme.messenger.auth.LoginUserClient;
 import edu.laplateforme.messenger.auth.RegisterUserClient;
-
+import edu.laplateforme.messenger.manager.LoginRegisterManager;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class ClientApplication {
     public static void main(String[] args) throws IOException {
-        RegisterUserClient registerUserClient = new RegisterUserClient();
-        LoginUserClient loginUserClient = new LoginUserClient();
-        Scanner scanner = new Scanner(System.in);
+        if (args.length != 2) {
+            System.out.println("Usage: java -jar galactic_messenger_client.jar <ip address> <port>");
+            System.exit(1);
+        } else {
+            String serverIp = args[0];
+            String serverPort = args[1];
 
-        System.out.println("""
-                To register: /register <username> <password>
-                To login: /login <username> <password>
-                To get help: /help
-                                            
-                """);
+            RegisterUserClient registerUserClient = new RegisterUserClient(serverIp, serverPort);
+            LoginUserClient loginUserClient = new LoginUserClient(serverIp, serverPort);
 
-        while (true) {
-            String input = scanner.nextLine();
-            String[] parts = input.split(" ");
-            String command = parts[0];
+            LoginRegisterManager loginRegisterManager = new LoginRegisterManager(registerUserClient, loginUserClient);
+            loginRegisterManager.startInteraction();
 
-            if (parts.length == 3) {
-                String username = parts[1];
-                String password = parts[2];
-
-                if (command.equals("/register")) {
-                    registerUserClient.registerUser(username, password);
-//                    System.out.println("User registered successfully.\n");
-                } else if (command.equals("/login")) {
-                    loginUserClient.loginUser(username, password);
-//                    System.out.println("User logged in successfully.\n");
-                } else {
-                    System.out.println("Invalid command.\n");
-                }
-
-            } else if (command.equals("/help")) {
-                System.out.println("""
-                        To register: /register <username> <password>
-                        To login: /login <username> <password>
-                        To get help: /help
-                                                    
-                        """);
-            } else {
-                System.out.println("Invalid command.\n");
-            }
+            System.out.println(loginRegisterManager.getLoggedInUser());
         }
-        // End of main
     }
 }
 
