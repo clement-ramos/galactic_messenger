@@ -4,7 +4,9 @@ import edu.laplateforme.messenger.entity.User;
 import edu.laplateforme.messenger.repository.UserRepository;
 import edu.laplateforme.messenger.service.PasswordEncoderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,13 +39,11 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam String username, @RequestParam String password) {
-        if (!userRepository.existsByUsername(username)) {
-            return "User not found.\n";
+        if (userRepository.existsByUsername(username) &&
+                userRepository.findByUsername(username).getPassword().equals(PasswordEncoderService.hashPassword(password))) {
+            return "User logged in successfully.\n";
+        } else {
+            return "Invalid username or password.\n";
         }
-        User user = userRepository.findByUsername(username);
-        if (!user.getPassword().equals(PasswordEncoderService.hashPassword(password))) {
-            return "Incorrect password.\n";
-        }
-        return "User logged in successfully.\n";
     }
 }
