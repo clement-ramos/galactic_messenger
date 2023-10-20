@@ -2,11 +2,11 @@ package edu.laplateforme.messenger;
 
 import edu.laplateforme.messenger.auth.LoginUserClient;
 import edu.laplateforme.messenger.auth.RegisterUserClient;
+import edu.laplateforme.messenger.manager.ChatManager;
 import edu.laplateforme.messenger.manager.LoginRegisterManager;
-import java.io.IOException;
 
 public class ClientApplication {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         if (args.length != 2) {
             System.out.println("Usage: java -jar galactic_messenger_client.jar <ip address> <port>");
             System.exit(1);
@@ -20,7 +20,10 @@ public class ClientApplication {
             LoginRegisterManager loginRegisterManager = new LoginRegisterManager(registerUserClient, loginUserClient);
             loginRegisterManager.startInteraction();
 
-            System.out.println(loginRegisterManager.getLoggedInUser());
+            System.out.println("Welcome to Galactic Messenger, " + loginRegisterManager.getLoggedInUser() + "!\n");
+
+            ChatManager chatManager = new ChatManager();
+            chatManager.startInteraction();
         }
     }
 }
