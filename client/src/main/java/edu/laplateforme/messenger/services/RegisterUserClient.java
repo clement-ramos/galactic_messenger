@@ -1,4 +1,4 @@
-package edu.laplateforme.messenger.auth;
+package edu.laplateforme.messenger.services;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

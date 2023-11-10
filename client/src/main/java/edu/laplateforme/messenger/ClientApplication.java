@@ -1,8 +1,8 @@
 package edu.laplateforme.messenger;
 
-import edu.laplateforme.messenger.auth.LoginUserClient;
-import edu.laplateforme.messenger.auth.RegisterUserClient;
-import edu.laplateforme.messenger.manager.LoginRegisterManager;
+import edu.laplateforme.messenger.services.LoginUserClient;
+import edu.laplateforme.messenger.services.RegisterUserClient;
+import edu.laplateforme.messenger.controller.AuthController;
 import java.io.IOException;
 
 public class ClientApplication {
@@ -17,11 +17,12 @@ public class ClientApplication {
             RegisterUserClient registerUserClient = new RegisterUserClient(serverIp, serverPort);
             LoginUserClient loginUserClient = new LoginUserClient(serverIp, serverPort);
 
-            LoginRegisterManager loginRegisterManager = new LoginRegisterManager(registerUserClient, loginUserClient);
-            loginRegisterManager.startInteraction();
+            AuthController loginRegisterManager = new AuthController(registerUserClient, loginUserClient);
+            loginRegisterManager.authHandler();
 
             System.out.println(loginRegisterManager.getLoggedInUser());
         }
     }
+
 }
 

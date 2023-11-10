@@ -1,8 +1,6 @@
-package edu.laplateforme.messenger.auth;
+package edu.laplateforme.messenger.services;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
@@ -28,5 +26,6 @@ public class LoginUserClient {
             System.out.println(responseEntity.getBody());
             return false;
         }
+
     }
 }
