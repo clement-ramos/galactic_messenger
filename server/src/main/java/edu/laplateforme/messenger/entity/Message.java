@@ -1,8 +1,13 @@
 package edu.laplateforme.messenger.entity;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.boot.jackson.JsonComponent;
+import org.springframework.boot.jackson.JsonObjectDeserializer;
+import org.springframework.boot.jackson.JsonObjectSerializer;
+
 
 import java.io.Serializable;
 
@@ -25,4 +30,10 @@ public class Message implements Serializable {
 
     @Column(name = "content", length = 255)
     private String content;
+
+
 }
+
+
+
+

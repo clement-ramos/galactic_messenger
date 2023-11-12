@@ -9,11 +9,15 @@ import java.util.Scanner;
 @Getter
 public class AuthController {
 
+    //available commands
+
     private static final String REGISTER_COMMAND = "/register";
     private static final String LOGIN_COMMAND = "/login";
     private static final String HELP_COMMAND = "/help";
 
+    //State of the user
     private String loggedInUser = null;
+
     private final RegisterUserClient registerUserClient;
     private final LoginUserClient loginUserClient;
 

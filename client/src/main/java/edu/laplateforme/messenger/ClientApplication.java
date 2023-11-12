@@ -19,6 +19,7 @@ public class ClientApplication {
 
             AuthController loginRegisterManager = new AuthController(registerUserClient, loginUserClient);
             loginRegisterManager.authHandler();
+            //call Menu / message Handler
 
             System.out.println(loginRegisterManager.getLoggedInUser());
         }
